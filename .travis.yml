@@ -1,0 +1,61 @@
+sudo: required
+dist: trusty
+language: ruby
+
+before_install:
+before_install:
+- gem install asciidoctor -v 1.5.2
+- gem install tilt
+- sudo pip install git+https://github.com/gitenberg-dev/gitberg
+- sudo pip install pillow
+- sudo pip install cssutils
+- sudo pip install docutils
+- sudo pip install roman
+- sudo pip install git+https://github.com/gitenberg-dev/pg-epubmaker
+script:
+- VERSION=`ruby -e "require 'yaml'; meta = YAML.load_file('metadata.yaml'); puts meta['_version'];"`
+- git clone https://github.com/gitenberg-dev/asciidoctor-htmlbook.git
+- sudo pip install -r asciidoctor-htmlbook/gitberg-machine/requirements.txt
+
+- /usr/bin/python -c "from gitenberg import travis; travis.build_epub()"
+- ebook-convert book.epub book.mobi
+- xvfb-run ebook-convert book.epub book.pdf
+branches:
+  only:
+  - master
+notifications:
+  webhooks:
+    urls:
+      - https://unglue.it/api/travisci/webhook
+    on_success: always
+    on_failure: never
+    on_start: never
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: CD1sso4TPBSPk6rQMfTaYBkLssEQZUb/NVMPWathwmg3JZNQ800CyO917RA80t0wLRh/9xVhqWhWK1J4XGj9aEa4LnqRlJcoYZoduLNkDM61dQKPSogo8EbiUTsmgR6jAqoRScWneK7DvNkzUArKQ9An4XkgoR7Q0EZxNAifXbDjUHcCGP+J4OuIBEy0cZbUZU88Dj084iouiTbXM+YBKS4nGwDJyzNhLqm1p6fYusN1K4keyo09ndc4aFYj3w32qlCIMy3COCHMdIfObqaJE1IK9pgM3Xj9yXuyuWpmdUX6oYJlrNyWCgP5MkFGWbtfMQApALnfal/TfOY0y1wksHXRkRqAGXi9VTwgzn5FHnEiTZWQkgJx9/F2W1orvIzlxFUcWjsX9FFpKwmYiHg/e6uT+Thcxym5BSPJXz+7bkfYkeJ/0Dd7BaGk71xpMU08r09B7FvFUiypCe+qfzFUJesYfDvEHwp5OcmwmCrsc4iZ7hYWX4Ka4GbZIERX8JobwroUFaUNCmxLraMron+dsayFhjEokeL94Z1vi6bHptGLQm6zqm2Rty278EVGBM8n+EDwFEnyNoGnk0HWXsvbm4PKAzo93SgOVxHQ6tfqP4q0OED56n9GlQld/096bxdA+C3iU81qhf745rYdte0rIAlCF6kSvxhEtYF+GMmNs1A=
+  file:
+    - book.epub
+    - book.mobi
+    - book.pdf
+  "on":
+    repo: GITenberg/The-Strolling-Saint--being-the-confessions-of-the-high-and-mighty-Agostino-D-Anguissola-tyrant__3423
+addons:
+  apt:
+    packages:
+    - xsltproc
+    - xvfb
+    - calibre
+    - python-pip
+    - git
+    - python-dev
+    - libjpeg-dev
+    - libpng-dev
+    - libfreetype6
+    - libfreetype6-dev
+    - zlib1g-dev
+    - python-lxml
+    - libxml2-dev
+    - libxslt1-dev
+    - tidy
