@@ -1,5 +1,8 @@
 _repo: The-Strolling-Saint--being-the-confessions-of-the-high-and-mighty-Agostino-D-Anguissola-tyrant__3423
-_version: 0.1.0
+_version: 0.2.0
+covers:
+- cover_type: generated
+  image_path: cover.png
 creator:
   author:
     agent_name: Sabatini, Rafael
@@ -10,6 +13,8 @@ creator:
     url: http://www.gutenberg.org/2009/agents/640
     wikipedia: http://en.wikipedia.org/wiki/Rafael_Sabatini
 description: ''
+edition_identifiers:
+  edition_id: http://www.gutenberg.org/ebooks/3423#The-Strolling-Saint--being-the-confessions-of-the-high-and-mighty-Agostino-D-Anguissola-tyrant_
 gutenberg_issued: '2002-09-01'
 gutenberg_type: Text
 identifiers:
